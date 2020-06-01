@@ -15,13 +15,14 @@ export class ProductService {
     private httpClient: HttpClient
   ) { }
 
-  getProductsList(): Observable<Product[]>{
-    return this.httpClient.get<GetResponse>(this.baseUrl).pipe(
+  getProductsList(categoryId: number): Observable<Product[]> {
+    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${categoryId}`;
+    return this.httpClient.get<GetResponse>(searchUrl).pipe(
       map(response => response._embedded.products)
     );
   }
 }
-interface GetResponse{
+interface GetResponse {
   _embedded: {
     products: Product[];
   }
