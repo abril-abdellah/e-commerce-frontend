@@ -3,13 +3,21 @@
         <div class="container-fluid">
             <div class="row">
                 <div *ngFor="let product of products" class="col-md-3">
-                    {{product.name}}
+
                     <div class="product-box">
-                        <img src="{{product.imageUrl}}" class="img-respinsive">
-                        <h2>{{product.name}}</h2>
-                        <div class="price">{{product.unitPrice | currency}}</div>
+                        <a routerLink="/products/{{ product.id }}">
+                            <img src="{{product.imageUrl}}" class="img-respinsive">
+                        </a>
+                        <a routerLink="/products/{{ product.id }}">
+                            <h2>{{ product.name }}</h2>
+                        </a>
+
+                        <div class="price">{{ product.unitPrice | currency }}</div>
                         <a class="primary-btn" href="#">Add to cart</a>
                     </div>
+                </div>
+                <div *ngIf="products?.length == 0" class="alert alert-warning col-12" role="alert">
+                    No product found!
                 </div>
             </div>
         </div>
