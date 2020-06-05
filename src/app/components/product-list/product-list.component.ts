@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/common/product';
 import { ActivatedRoute } from '@angular/router';
+import { CartItem } from 'src/app/common/cart-item';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-product-list',
@@ -15,15 +17,16 @@ export class ProductListComponent implements OnInit {
   previousCategoryId: number = 1;
   searchMode: boolean = false;
   //pagintion properties
-  pageNumber: number = 1; 
+  pageNumber: number = 1;
   pageSize: number = 10;
   totalElements: number = 0;
 
-  previousKeyword:string = null;
+  previousKeyword: string = null;
 
   constructor(
     private productService: ProductService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
@@ -49,7 +52,7 @@ export class ProductListComponent implements OnInit {
       this.pageNumber = 1;
     }
     this.previousKeyword = keyword;
-    this.productService.searchProductsListPaginate(this.pageNumber-1, this.pageSize, keyword).subscribe(
+    this.productService.searchProductsListPaginate(this.pageNumber - 1, this.pageSize, keyword).subscribe(
       this.proccessResult()
     );
   }
@@ -70,9 +73,9 @@ export class ProductListComponent implements OnInit {
 
     //Getting products
     this.productService.getProductsListPaginate(this.pageNumber - 1, this.pageSize, this.currentCategoryId)
-                        .subscribe(this.proccessResult());
+      .subscribe(this.proccessResult());
   }
-  proccessResult(){
+  proccessResult() {
     return data => {
       this.products = data._embedded.products;
       this.pageNumber = data.page.number + 1;
@@ -81,10 +84,15 @@ export class ProductListComponent implements OnInit {
     };
   }
 
-  updataPageSize(pageSize: number){
+  updataPageSize(pageSize: number) {
     this.pageSize = pageSize;
     this.pageNumber = 1;
     this.listProducts();
+  }
+
+  addToCart(product: Product) {
+    const cartItem:CartItem = new CartItem(product);
+    this.cartService.addToCart(cartItem);
   }
 
 }
