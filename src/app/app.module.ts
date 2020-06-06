@@ -13,17 +13,20 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartStatusComponent } from './components/cart-status/cart-status.component';
 import { CartService } from './services/cart.service';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 const routes: Routes = [
-  {path:"cart-details", component:CartDetailsComponent},
-  {path:"products/:id", component:ProductDetailsComponent},
-  {path:"search/:keyword", component:ProductListComponent},
-  {path:"category/:id", component:ProductListComponent},
-  {path:"category", component:ProductListComponent},
-  {path:"products", component:ProductListComponent},
-  {path:"", redirectTo:"/products", pathMatch:"full"},
-  {path:"**", redirectTo:"/products", pathMatch:"full"}
+  { path: "checkout", component: CheckoutComponent },
+  { path: "cart-details", component: CartDetailsComponent },
+  { path: "products/:id", component: ProductDetailsComponent },
+  { path: "search/:keyword", component: ProductListComponent },
+  { path: "category/:id", component: ProductListComponent },
+  { path: "category", component: ProductListComponent },
+  { path: "products", component: ProductListComponent },
+  { path: "", redirectTo: "/products", pathMatch: "full" },
+  { path: "**", redirectTo: "/products", pathMatch: "full" }
 ];
 @NgModule({
   declarations: [
@@ -33,13 +36,15 @@ const routes: Routes = [
     SearchComponent,
     ProductDetailsComponent,
     CartStatusComponent,
-    CartDetailsComponent
+    CartDetailsComponent,
+    CheckoutComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
   ],
   providers: [
     ProductService,
